@@ -85,7 +85,7 @@ function App() {
       <main className="data-container">
         <div className="header-row">
           <div className="header-cell">User ID</div>
-          <div className="header-cell">Stamp</div>
+          <div className="header-cell">Time Stamp</div>
           <div className="header-cell">Message (incoming)</div>
           <div className="header-cell">Message (outgoing)</div>
           <div className="header-cell">Station Name</div>
@@ -94,6 +94,7 @@ function App() {
           <div className="header-cell">Distance</div>
           <div className="header-cell">Pilot</div>
           <div className="header-cell">Audio</div>
+          <div className="header-cell">Audio Link</div>
         </div>
         {data.map((item, index) => (
           <div key={index} className="data-row">
@@ -112,6 +113,13 @@ function App() {
                   <source src={item.url} type="audio/mpeg" />
                   Your browser does not support the audio element.
                 </audio>
+              )}
+            </div>
+            <div className="data-cell">
+              {item.url && (
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  Link
+                </a>
               )}
             </div>
           </div>
