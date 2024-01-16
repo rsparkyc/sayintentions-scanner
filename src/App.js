@@ -91,13 +91,15 @@ function App() {
           <div className="header-cell">Station Name</div>
           <div className="header-cell">Frequency</div>
           <div className="header-cell">Location</div>
-          <div className="header-cell">Distance</div>
           <div className="header-cell">Pilot</div>
           <div className="header-cell">Audio</div>
           <div className="header-cell">Audio Link</div>
         </div>
-        {data.map((item, index) => (
-          <div key={index} className="data-row">
+        {[...data].reverse().map((item, index) => (
+          <div
+            key={index}
+            className={`data-row ${index % 2 === 0 ? "even-row" : "odd-row"}`}
+          >
             <div className="data-cell">{item.from_userid}</div>
             <div className="data-cell">{item.stamp}</div>
             <div className="data-cell">{item.incoming_message}</div>
@@ -105,7 +107,6 @@ function App() {
             <div className="data-cell">{item.station_name}</div>
             <div className="data-cell">{item.frequency}</div>
             <div className="data-cell">{item.rough_location}</div>
-            <div className="data-cell">{item.distance}</div>
             <div className="data-cell">{item.pilot}</div>
             <div className="data-cell">
               {item.url && (

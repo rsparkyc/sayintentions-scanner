@@ -43,3 +43,11 @@ audio {
   width: 100%; /* Adjust the width as needed */
   /* Additional styling */
 }
+
+.data-row.even-row {
+  background-color: #f9f9f9; /* Light background color for even rows */
+}
+
+.data-row.odd-row {
+  background-color: #ffffff; /* Keep odd rows white or any other color */
+}
