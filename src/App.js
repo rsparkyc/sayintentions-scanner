@@ -84,31 +84,34 @@ function App() {
     <div className="App">
       <main className="data-container">
         <div className="header-row">
-          <div className="header-cell">UserID</div>
+          <div className="header-cell">User ID</div>
           <div className="header-cell">Stamp</div>
-          <div className="header-cell">Message</div>
+          <div className="header-cell">Message (incoming)</div>
+          <div className="header-cell">Message (outgoing)</div>
           <div className="header-cell">Station Name</div>
           <div className="header-cell">Frequency</div>
           <div className="header-cell">Location</div>
+          <div className="header-cell">Distance</div>
           <div className="header-cell">Pilot</div>
           <div className="header-cell">Audio</div>
         </div>
         {data.map((item, index) => (
           <div key={index} className="data-row">
-            <div className="data-cell">{item.userid}</div>
+            <div className="data-cell">{item.from_userid}</div>
             <div className="data-cell">{item.stamp}</div>
-            <div className="data-cell">
-              {item.incoming_message || item.outgoing_message}
-            </div>
+            <div className="data-cell">{item.incoming_message}</div>
+            <div className="data-cell">{item.outgoing_message}</div>
             <div className="data-cell">{item.station_name}</div>
             <div className="data-cell">{item.frequency}</div>
             <div className="data-cell">{item.rough_location}</div>
+            <div className="data-cell">{item.distance}</div>
             <div className="data-cell">{item.pilot}</div>
             <div className="data-cell">
               {item.url && (
-                <a href={item.url} target="_blank" rel="noopener noreferrer">
-                  Listen
-                </a>
+                <audio controls preload="none">
+                  <source src={item.url} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
               )}
             </div>
           </div>
