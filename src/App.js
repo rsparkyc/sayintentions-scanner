@@ -2,8 +2,6 @@ import "./App.css";
 
 import React, { useEffect, useState } from "react";
 
-import logo from "./logo.svg";
-
 const getRealMessage = async (lastId) => {
   const response = await fetch(
     `https://www.sayintentions.ai/listen/next.html?last_id=${lastId}`,
@@ -14,6 +12,7 @@ const getRealMessage = async (lastId) => {
   return json;
 };
 
+// eslint-disable-next-line no-unused-vars
 const getFakeMessage = async (lastId) => {
   return {
     userid: 0,
