@@ -1,23 +1,120 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import React, { useEffect, useState } from "react";
+
+import logo from "./logo.svg";
+
+const getRealMessage = async (lastId) => {
+  const response = await fetch(
+    `https://www.sayintentions.ai/listen/next.html?last_id=${lastId}`,
+    { credentials: "same-origin" }
+  );
+
+  const json = await response.json();
+  return json;
+};
+
+const getFakeMessage = async (lastId) => {
+  return {
+    userid: 0,
+    outgoing_message: null,
+    stamp: "2024-01-16 07:04:15",
+    incoming_message:
+      "University traffic commuter 707 Tiger Charlie Tax on a runway 3/5.",
+    distance: 20,
+    station_name: "University CTAF",
+    from_userid: "107",
+    multiplayer: 2,
+    frequency: "123.075",
+    discord_handle:
+      '<a target="_new" href="/portal/admin/accounts/edit.html?userid=107">iRacer99</a>',
+    id: lastId + 1,
+    url: "https://sayintentions.ai/audio/pilot/pilot-5SE9oLY66S6qNs2Moiur.mp3",
+    rough_location:
+      "On the ground at KEDU (University - Davis, CA) at zero feet.",
+    pilot: "Commuter 707TC",
+  };
+};
 
 function App() {
+  const getMessage = getRealMessage;
+
+  const [data, setData] = useState([]);
+  const [lastId, setLastId] = useState(0);
+
+  const updateLastId = (id) => {
+    console.log("Updating last id to: ", id);
+    setLastId(id);
+  };
+
+  // Push new data to the end of the array
+  const pushData = (newItem) => {
+    setData((prevState) => [...prevState, newItem]);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const json = await getMessage(lastId);
+
+        if (json.id) {
+          updateLastId(json.id);
+          pushData(json);
+          console.log(json);
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    // Call fetchData
+    fetchData();
+
+    // Set up a polling interval (e.g., 1000 milliseconds)
+    const interval = setInterval(fetchData, 1000);
+
+    // Clear interval on unmount
+    return () => clearInterval(interval);
+  }, [lastId, getMessage]);
+
+  useEffect(() => {
+    console.log("Data has " + data.length + " items");
+  }, [data]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <main className="data-container">
+        <div className="header-row">
+          <div className="header-cell">UserID</div>
+          <div className="header-cell">Stamp</div>
+          <div className="header-cell">Message</div>
+          <div className="header-cell">Station Name</div>
+          <div className="header-cell">Frequency</div>
+          <div className="header-cell">Location</div>
+          <div className="header-cell">Pilot</div>
+          <div className="header-cell">Audio</div>
+        </div>
+        {data.map((item, index) => (
+          <div key={index} className="data-row">
+            <div className="data-cell">{item.userid}</div>
+            <div className="data-cell">{item.stamp}</div>
+            <div className="data-cell">
+              {item.incoming_message || item.outgoing_message}
+            </div>
+            <div className="data-cell">{item.station_name}</div>
+            <div className="data-cell">{item.frequency}</div>
+            <div className="data-cell">{item.rough_location}</div>
+            <div className="data-cell">{item.pilot}</div>
+            <div className="data-cell">
+              {item.url && (
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  Listen
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </main>
     </div>
   );
 }
