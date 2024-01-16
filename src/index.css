@@ -30,6 +30,9 @@ code {
 }
 
 .data-row {
+  padding-bottom: 10px;
+  padding-top: 10px;
+
   display: flex;
   /* Add styles for your row */
 }

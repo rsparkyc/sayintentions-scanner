@@ -93,7 +93,6 @@ function App() {
           <div className="header-cell">Location</div>
           <div className="header-cell">Pilot</div>
           <div className="header-cell">Audio</div>
-          <div className="header-cell">Audio Link</div>
         </div>
         {[...data].reverse().map((item, index) => (
           <div
@@ -115,8 +114,6 @@ function App() {
                   Your browser does not support the audio element.
                 </audio>
               )}
-            </div>
-            <div className="data-cell">
               {item.url && (
                 <a href={item.url} target="_blank" rel="noopener noreferrer">
                   Link
