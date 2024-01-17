@@ -112,7 +112,12 @@ function AudioTableComponent({ data }) {
                   : "data-row odd-row";
 
               return (
-                <AudioRowComponent key={row.id} row={row} rowClass={rowClass} />
+                <AudioRowComponent
+                  key={data[index].url}
+                  row={row}
+                  rowClass={rowClass}
+                  url={data[index].url}
+                />
               );
             })}
           </div>

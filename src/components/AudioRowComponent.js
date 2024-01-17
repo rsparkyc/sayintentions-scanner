@@ -1,7 +1,8 @@
 // RowComponent.js
 import React from "react";
 
-const AudioRowComponent = React.memo(({ row, rowClass }) => {
+const AudioRowComponent = React.memo(({ row, rowClass, url }) => {
+  console.log("Rendering AudioRowComponent for " + url);
   return (
     <div {...row.getRowProps({ className: rowClass })}>
       {row.cells.map((cell) => (
