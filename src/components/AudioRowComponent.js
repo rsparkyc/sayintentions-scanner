@@ -2,7 +2,7 @@
 import React from "react";
 
 const AudioRowComponent = React.memo(
-  ({ row, rowClass, url }) => {
+  ({ row, rowClass }) => {
     return (
       <div {...row.getRowProps({ className: rowClass })}>
         {row.cells.map((cell) => (

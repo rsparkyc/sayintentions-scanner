@@ -2,35 +2,14 @@ import AudioRowComponent from "./AudioRowComponent.js";
 import React from "react";
 import { useTable } from "react-table";
 
-/*
-        <div className="header-row">
-          <div className="header-cell">Time Stamp</div>
-          <div className="header-cell">Message (incoming)</div>
-          <div className="header-cell">Message (outgoing)</div>
-          <div className="header-cell">Station Name</div>
-          <div className="header-cell">Frequency</div>
-          <div className="header-cell">Location</div>
-          <div className="header-cell">Pilot</div>
-          <div className="header-cell">Audio</div>
-        </div>
-        {[...data].reverse().map((item, index) => (
-          <div
-            key={index}
-            className={`data-row ${index % 2 === 0 ? "even-row" : "odd-row"}`}
-          >
-            <div className="data-cell">{item.stamp}</div>
-            <div className="data-cell">{item.incoming_message}</div>
-            <div className="data-cell">{item.outgoing_message}</div>
-            <div className="data-cell">{item.station_name}</div>
-            <div className="data-cell">{item.frequency}</div>
-            <div className="data-cell">{item.rough_location}</div>
-            <div className="data-cell">{item.pilot}</div>
-*/
-
 function AudioTableComponent({ data }) {
   // Define columns
   const columns = React.useMemo(
     () => [
+      {
+        Header: "ID",
+        accessor: "id",
+      },
       {
         Header: "Time Stamp",
         accessor: "stamp",
@@ -116,7 +95,6 @@ function AudioTableComponent({ data }) {
                   key={data[index].url}
                   row={row}
                   rowClass={rowClass}
-                  url={data[index].url}
                 />
               );
             })}

@@ -36,7 +36,12 @@ function App() {
 
   // Push new data to the end of the array
   const pushData = (newItem) => {
-    setData((prevState) => [newItem, ...prevState]);
+    setData((prevState) => {
+      if (prevState.some((item) => item.id === newItem.id)) {
+        return prevState; // Return the existing state if item is duplicate
+      }
+      return [newItem, ...prevState]; // Add item at the beginning if not a duplicate
+    });
   };
 
   useEffect(() => {
