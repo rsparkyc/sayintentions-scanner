@@ -1,3 +1,4 @@
+import AudioRowComponent from "./AudioRowComponent.js";
 import React from "react";
 import { useTable } from "react-table";
 
@@ -41,6 +42,10 @@ function AudioTableComponent({ data }) {
       {
         Header: "Message (outgoing)",
         accessor: "outgoing_message",
+      },
+      {
+        Header: "Airport",
+        accessor: "airport",
       },
       {
         Header: "Station Name",
@@ -98,22 +103,16 @@ function AudioTableComponent({ data }) {
               </div>
             ))}
           </div>
-          <div {...getTableBodyProps()} class="data-row-group">
+          <div {...getTableBodyProps()} className="data-row-group">
             {rows.map((row, index) => {
               prepareRow(row);
               const rowClass =
-                index % 2 === 0 ? "data-row even-row" : "data-row odd-row";
+                (data.length - index) % 2 === 0
+                  ? "data-row even-row"
+                  : "data-row odd-row";
 
               return (
-                <div {...row.getRowProps({ className: rowClass })}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <div {...cell.getCellProps()} className="data-cell">
-                        {cell.render("Cell")}
-                      </div>
-                    );
-                  })}
-                </div>
+                <AudioRowComponent key={row.id} row={row} rowClass={rowClass} />
               );
             })}
           </div>
