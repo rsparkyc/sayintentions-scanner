@@ -15,7 +15,7 @@ const getRealMessage = async (lastId) => {
   }
 
   const response = await fetch(
-    `https://www.sayintentions.ai/listen/next.html?last_id=${lastId}`,
+    `https://www.sayintentions.ai/api/scanner.html?last_id=${lastId}`,
     options
   );
 
@@ -118,7 +118,7 @@ function App() {
             <div className="data-cell">{item.pilot}</div>
             <div className="data-cell">
               {item.url && (
-                <audio controls preload="none">
+                <audio key={item.url} controls preload="none">
                   <source src={item.url} type="audio/mpeg" />
                   Your browser does not support the audio element.
                 </audio>
