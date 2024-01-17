@@ -19,14 +19,15 @@ code {
   /* Other styling as needed */
 }
 
+.header {
+  display: flex;
+  width: 100%;
+}
+
 .header-cell {
   flex: 1;
   padding: 10px; /* Example padding */
   /* Other styling as needed */
-}
-
-.data-container {
-  /* Container styles */
 }
 
 .data-row {
@@ -48,7 +49,7 @@ audio {
 }
 
 .data-row.even-row {
-  background-color: #f9f9f9; /* Light background color for even rows */
+  background-color: #f0f0f0; /* Light background color for even rows */
 }
 
 .data-row.odd-row {

@@ -1,14 +1,35 @@
 import React from "react";
 import { useTable } from "react-table";
 
+/*
+        <div className="header-row">
+          <div className="header-cell">Time Stamp</div>
+          <div className="header-cell">Message (incoming)</div>
+          <div className="header-cell">Message (outgoing)</div>
+          <div className="header-cell">Station Name</div>
+          <div className="header-cell">Frequency</div>
+          <div className="header-cell">Location</div>
+          <div className="header-cell">Pilot</div>
+          <div className="header-cell">Audio</div>
+        </div>
+        {[...data].reverse().map((item, index) => (
+          <div
+            key={index}
+            className={`data-row ${index % 2 === 0 ? "even-row" : "odd-row"}`}
+          >
+            <div className="data-cell">{item.stamp}</div>
+            <div className="data-cell">{item.incoming_message}</div>
+            <div className="data-cell">{item.outgoing_message}</div>
+            <div className="data-cell">{item.station_name}</div>
+            <div className="data-cell">{item.frequency}</div>
+            <div className="data-cell">{item.rough_location}</div>
+            <div className="data-cell">{item.pilot}</div>
+*/
+
 function AudioTableComponent({ data }) {
   // Define columns
   const columns = React.useMemo(
     () => [
-      {
-        Header: "User ID",
-        accessor: "from_userid",
-      },
       {
         Header: "Time Stamp",
         accessor: "stamp",
@@ -17,14 +38,33 @@ function AudioTableComponent({ data }) {
         Header: "Message (incoming)",
         accessor: "incoming_message",
       },
-      // Define other columns similarly
+      {
+        Header: "Message (outgoing)",
+        accessor: "outgoing_message",
+      },
+      {
+        Header: "Station Name",
+        accessor: "station_name",
+      },
+      {
+        Header: "Frequency",
+        accessor: "frequency",
+      },
+      {
+        Header: "Location",
+        accessor: "rough_location",
+      },
+      {
+        Header: "Pilot",
+        accessor: "pilot",
+      },
       {
         Header: "Audio",
         accessor: "url",
         Cell: ({ value }) =>
           value && (
             <>
-              <audio controls preload="none">
+              <audio key={value} controls preload="none">
                 <source src={value} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
@@ -58,11 +98,14 @@ function AudioTableComponent({ data }) {
               </div>
             ))}
           </div>
-          <div {...getTableBodyProps()}>
-            {rows.map((row) => {
+          <div {...getTableBodyProps()} class="data-row-group">
+            {rows.map((row, index) => {
               prepareRow(row);
+              const rowClass =
+                index % 2 === 0 ? "data-row even-row" : "data-row odd-row";
+
               return (
-                <div {...row.getRowProps()} className="data-row">
+                <div {...row.getRowProps({ className: rowClass })}>
                   {row.cells.map((cell) => {
                     return (
                       <div {...cell.getCellProps()} className="data-cell">

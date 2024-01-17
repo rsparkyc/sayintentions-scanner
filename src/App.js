@@ -5,9 +5,20 @@ import React, { useEffect, useState } from "react";
 import AudioTableComponent from "./components/AudioTableComponent";
 
 const getRealMessage = async (lastId) => {
+  let options = {};
+
+  // if we are not under the sayintentions.ai domain,
+  // we should set the credentials to "same-origin"
+
+  if (window.location.hostname !== "www.sayintentions.ai") {
+    options = {
+      credentials: "same-origin",
+    };
+  }
+
   const response = await fetch(
-    `https://www.sayintentions.ai/listen/next.html?last_id=${lastId}`,
-    { credentials: "same-origin" }
+    `https://www.sayintentions.ai/api/scanner.html?last_id=${lastId}`,
+    options
   );
 
   const json = await response.json();
@@ -85,7 +96,7 @@ function App() {
   return (
     <div className="App">
       <main className="data-container">
-        <AudioTableComponent data={data} />
+        <AudioTableComponent data={[...data].reverse()} />
       </main>
     </div>
   );
