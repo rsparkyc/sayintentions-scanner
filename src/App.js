@@ -3,9 +3,20 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 
 const getRealMessage = async (lastId) => {
+  let options = {};
+
+  // if we are not under the sayintentions.ai domain,
+  // we should set the credentials to "same-origin"
+
+  if (window.location.hostname !== "www.sayintentions.ai") {
+    options = {
+      credentials: "same-origin",
+    };
+  }
+
   const response = await fetch(
     `https://www.sayintentions.ai/listen/next.html?last_id=${lastId}`,
-    { credentials: "same-origin" }
+    options
   );
 
   const json = await response.json();
@@ -84,7 +95,6 @@ function App() {
     <div className="App">
       <main className="data-container">
         <div className="header-row">
-          <div className="header-cell">User ID</div>
           <div className="header-cell">Time Stamp</div>
           <div className="header-cell">Message (incoming)</div>
           <div className="header-cell">Message (outgoing)</div>
@@ -99,7 +109,6 @@ function App() {
             key={index}
             className={`data-row ${index % 2 === 0 ? "even-row" : "odd-row"}`}
           >
-            <div className="data-cell">{item.from_userid}</div>
             <div className="data-cell">{item.stamp}</div>
             <div className="data-cell">{item.incoming_message}</div>
             <div className="data-cell">{item.outgoing_message}</div>
