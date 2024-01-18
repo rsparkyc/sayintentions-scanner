@@ -3,8 +3,9 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 
 import AudioTableComponent from "./components/AudioTableComponent";
+import Autoplayer from "./components/Autoplayer";
 
-const getRealMessage = async (lastId) => {
+const getMessage = async (lastId) => {
   let options = {};
 
   // if we are not under the sayintentions.ai domain,
@@ -25,10 +26,9 @@ const getRealMessage = async (lastId) => {
 };
 
 function App() {
-  const getMessage = getRealMessage;
-
   const [data, setData] = useState([]);
   const [lastId, setLastId] = useState(0);
+  const [lastUrl, setLastUrl] = useState(null);
 
   const updateLastId = (id) => {
     setLastId(id);
@@ -40,6 +40,7 @@ function App() {
       if (prevState.some((item) => item.id === newItem.id)) {
         return prevState; // Return the existing state if item is duplicate
       }
+      setLastUrl(newItem.url);
       return [newItem, ...prevState]; // Add item at the beginning if not a duplicate
     });
   };
@@ -71,6 +72,9 @@ function App() {
 
   return (
     <div className="App">
+      <div className="autoPlayer">
+        {lastUrl && <Autoplayer latestAudioUrl={lastUrl} />}
+      </div>
       <main className="data-container">
         <AudioTableComponent data={data} />
       </main>

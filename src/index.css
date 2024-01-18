@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.autoPlayer audio {
+  width: 200px;
+}
+
 .header-row {
   display: flex;
   font-weight: bold;
