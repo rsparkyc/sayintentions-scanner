@@ -47,13 +47,15 @@ function AudioTableComponent({ data }) {
             title = "Non-multiplayer user";
           }
 
-          value && (
-            <>
-              <div class="pilot-name" title={title}>
-                {value}
-              </div>
-              <div class="demo-flag">Demo User</div>
-            </>
+          return (
+            value && (
+              <>
+                <div class="pilot-name" title={title}>
+                  {value}
+                </div>
+                <div class="demo-flag">Demo User</div>
+              </>
+            )
           );
         },
       },
