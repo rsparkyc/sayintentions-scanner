@@ -9,7 +9,7 @@ const getRealMessage = async (lastId) => {
 
   // if we are not under the sayintentions.ai domain,
   // we should set the credentials to "same-origin"
-  if (window.location.hostname !== "www.sayintentions.ai") {
+  if (window.location.hostname.endsWith("sayintentions.ai")) {
     options = {
       credentials: "same-origin",
     };
