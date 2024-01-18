@@ -55,10 +55,10 @@ function AudioTableComponent({
           return (
             value && (
               <>
-                <div class="pilot-name" title={title}>
+                <div className="pilot-name" title={title}>
                   {value}
                 </div>
-                <div class="demo-flag">Demo User</div>
+                <div className="demo-flag">Demo User</div>
               </>
             )
           );

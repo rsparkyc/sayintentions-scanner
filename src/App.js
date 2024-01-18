@@ -1,7 +1,7 @@
 import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import AudioTableComponent from "./components/AudioTableComponent";
 import Autoplayer from "./components/Autoplayer";
@@ -43,6 +43,9 @@ function App() {
     type: "include",
   });
 
+  const updateLastId = (id) => {
+    setLastId(id);
+  };
   const handleFieldChange = (event) => {
     setNewFilter({ ...newFilter, field: event.target.value });
   };
@@ -51,33 +54,10 @@ function App() {
     setNewFilter({ ...newFilter, value: event.target.value });
   };
 
-  const handleSubmit = (filterType) => {
-    addFilter({ ...newFilter, type: filterType });
+  const handleAddFilter = (filterType) => {
+    let filterToAdd = { ...newFilter, type: filterType };
+    addFilter(filterToAdd);
     setNewFilter({ field: filterableFields[0], value: "", type: "include" }); // Reset form
-  };
-
-  const updateLastId = (id) => {
-    setLastId(id);
-  };
-
-  // Push new data to the end of the array
-  const pushData = (newItem) => {
-    setData((prevState) => {
-      if (prevState.some((item) => item.id === newItem.id)) {
-        return prevState; // Return the existing state if item is duplicate
-      }
-      const passesFilters = filters.every((filter) => {
-        if (filter.type === "include") {
-          return newItem[filter.field].includes(filter.value);
-        } else {
-          return !newItem[filter.field].includes(filter.value);
-        }
-      });
-      if (passesFilters) {
-        setLastUrl(newItem.url);
-      }
-      return [newItem, ...prevState]; // Add item at the beginning if not a duplicate
-    });
   };
 
   const applyFilters = (data) => {
@@ -92,19 +72,31 @@ function App() {
     });
   };
 
-  const addFilter = (newFilter) => {
-    if (
-      newFilter.field !== "" &&
-      newFilter.value !== "" &&
-      newFilter.type !== ""
-    ) {
-      setFilters([...filters, newFilter]);
-    }
-  };
+  const addFilter = useCallback(
+    (newFilter) => {
+      console.log("Current filters: ", filters);
+      debugger;
+      if (
+        newFilter.field !== "" &&
+        newFilter.value !== "" &&
+        newFilter.type !== ""
+      ) {
+        console.log("Adding filter: ", newFilter);
+        setFilters([...filters, newFilter]);
+      }
+    },
+    [filters]
+  );
 
   const removeFilter = (index) => {
+    console.log("Current filters: ", filters);
+    console.log("Removing filter at index: ", index);
     setFilters(filters.filter((_, i) => i !== index));
   };
+
+  useEffect(() => {
+    console.log("Filters now set to: ", filters);
+  }, [filters]);
 
   const filteredData = applyFilters(data);
 
@@ -123,6 +115,26 @@ function App() {
       }
     };
 
+    // Push new data to the end of the array
+    const pushData = (newItem) => {
+      setData((prevState) => {
+        if (prevState.some((item) => item.id === newItem.id)) {
+          return prevState; // Return the existing state if item is duplicate
+        }
+        const passesFilters = filters.every((filter) => {
+          if (filter.type === "include") {
+            return newItem[filter.field].includes(filter.value);
+          } else {
+            return !newItem[filter.field].includes(filter.value);
+          }
+        });
+        if (passesFilters) {
+          setLastUrl(newItem.url);
+        }
+        return [newItem, ...prevState]; // Add item at the beginning if not a duplicate
+      });
+    };
+
     // Call fetchData
     fetchData();
 
@@ -131,7 +143,7 @@ function App() {
 
     // Clear interval on unmount
     return () => clearInterval(interval);
-  }, [lastId, pushData]);
+  }, [filters, lastId]);
 
   return (
     <div className="App">
@@ -153,11 +165,11 @@ function App() {
             onChange={handleValueChange}
           />
           {/* Include Filter Button */}
-          <button type="button" onClick={() => handleSubmit("include")}>
+          <button type="button" onClick={() => handleAddFilter("include")}>
             <i className="fa fa-filter" aria-hidden="true"></i>
           </button>
           {/* Exclude Filter Button */}
-          <button type="button" onClick={() => handleSubmit("exclude")}>
+          <button type="button" onClick={() => handleAddFilter("exclude")}>
             <i className="fa fa-filter-circle-xmark" aria-hidden="true"></i>
           </button>
         </form>

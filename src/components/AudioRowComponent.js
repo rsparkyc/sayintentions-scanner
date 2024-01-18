@@ -1,9 +1,15 @@
 // RowComponent.js
-import React from "react";
+import React, { useMemo } from "react";
 
-const AudioRowComponent = React.memo(
-  ({ row, rowClass, filterableFields, addFilter, allowFiltering }) => {
-    return (
+function AudioRowComponent({
+  row,
+  rowClass,
+  filterableFields,
+  addFilter,
+  allowFiltering,
+}) {
+  const rowData = useMemo(
+    () => (
       <div {...row.getRowProps({ className: rowClass })}>
         {row.cells.map((cell) => {
           // Check if the field is filterable
@@ -48,9 +54,11 @@ const AudioRowComponent = React.memo(
           );
         })}
       </div>
-    );
-  },
-  (prevProps, nextProps) => prevProps.id === nextProps.id
-);
+    ),
+    [row, rowClass, filterableFields, addFilter, allowFiltering]
+  );
+
+  return rowData;
+}
 
 export default AudioRowComponent;
