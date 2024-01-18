@@ -2,7 +2,12 @@ import AudioRowComponent from "./AudioRowComponent.js";
 import React from "react";
 import { useTable } from "react-table";
 
-function AudioTableComponent({ data }) {
+function AudioTableComponent({
+  data,
+  filterableFields,
+  addFilter,
+  allowFiltering,
+}) {
   // Define columns
   const columns = React.useMemo(
     () => [
@@ -118,6 +123,9 @@ function AudioTableComponent({ data }) {
                   key={data[index].id}
                   row={row}
                   rowClass={rowClass}
+                  filterableFields={filterableFields}
+                  addFilter={addFilter}
+                  allowFiltering={allowFiltering}
                 />
               );
             })}

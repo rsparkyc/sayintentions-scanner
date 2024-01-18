@@ -1,4 +1,5 @@
 import "./App.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import React, { useEffect, useState } from "react";
 
@@ -27,7 +28,7 @@ const getMessage = async (lastId) => {
 
 function App() {
   const searchParams = new URLSearchParams(window.location.search);
-  let showFilterControls = searchParams.has("filters");
+  const showFilterControls = searchParams.has("filters");
 
   const [data, setData] = useState([]);
   const [lastId, setLastId] = useState(0);
@@ -50,13 +51,8 @@ function App() {
     setNewFilter({ ...newFilter, value: event.target.value });
   };
 
-  const handleTypeChange = (event) => {
-    setNewFilter({ ...newFilter, type: event.target.value });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    addFilter(newFilter);
+  const handleSubmit = (filterType) => {
+    addFilter({ ...newFilter, type: filterType });
     setNewFilter({ field: filterableFields[0], value: "", type: "include" }); // Reset form
   };
 
@@ -70,7 +66,16 @@ function App() {
       if (prevState.some((item) => item.id === newItem.id)) {
         return prevState; // Return the existing state if item is duplicate
       }
-      setLastUrl(newItem.url);
+      const passesFilters = filters.every((filter) => {
+        if (filter.type === "include") {
+          return newItem[filter.field].includes(filter.value);
+        } else {
+          return !newItem[filter.field].includes(filter.value);
+        }
+      });
+      if (passesFilters) {
+        setLastUrl(newItem.url);
+      }
       return [newItem, ...prevState]; // Add item at the beginning if not a duplicate
     });
   };
@@ -134,7 +139,7 @@ function App() {
         {lastUrl && <Autoplayer latestAudioUrl={lastUrl} />}
       </div>
       {showFilterControls && (
-        <form onSubmit={handleSubmit}>
+        <form>
           <select value={newFilter.field} onChange={handleFieldChange}>
             {filterableFields.map((field) => (
               <option key={field} value={field}>
@@ -147,11 +152,14 @@ function App() {
             value={newFilter.value}
             onChange={handleValueChange}
           />
-          <select value={newFilter.type} onChange={handleTypeChange}>
-            <option value="include">Include</option>
-            <option value="exclude">Exclude</option>
-          </select>
-          <button type="submit">Add Filter</button>
+          {/* Include Filter Button */}
+          <button type="button" onClick={() => handleSubmit("include")}>
+            <i className="fa fa-filter" aria-hidden="true"></i>
+          </button>
+          {/* Exclude Filter Button */}
+          <button type="button" onClick={() => handleSubmit("exclude")}>
+            <i className="fa fa-filter-circle-xmark" aria-hidden="true"></i>
+          </button>
         </form>
       )}
       <div className="active-filters">
@@ -163,7 +171,12 @@ function App() {
         ))}
       </div>
       <main className="data-container">
-        <AudioTableComponent data={filteredData} />
+        <AudioTableComponent
+          data={filteredData}
+          filterableFields={filterableFields}
+          addFilter={addFilter}
+          allowFiltering={showFilterControls}
+        />
       </main>
     </div>
   );

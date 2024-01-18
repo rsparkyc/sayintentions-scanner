@@ -26,6 +26,15 @@ code {
   color: #cc3333;
 }
 
+.data-cell button {
+  margin: 3;
+  padding: 3;
+  border: none;
+  background: none;
+  color: #000000;
+  cursor: pointer;
+}
+
 .autoPlayer audio {
   width: 400px;
 }
