@@ -131,7 +131,7 @@ function App() {
 
     // Clear interval on unmount
     return () => clearInterval(interval);
-  }, [lastId]);
+  }, [lastId, pushData]);
 
   return (
     <div className="App">
