@@ -12,6 +12,20 @@ code {
     monospace;
 }
 
+.demo-flag {
+  display: none;
+}
+
+.data-row.demo-user .demo-flag {
+  display: block;
+  color: #669966;
+  font-weight: bold;
+}
+
+.data-row.non-multiplayer .pilot-name {
+  color: #cc3333;
+}
+
 .autoPlayer audio {
   width: 400px;
 }

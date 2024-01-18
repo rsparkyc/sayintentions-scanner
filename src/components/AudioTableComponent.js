@@ -41,6 +41,21 @@ function AudioTableComponent({ data }) {
       {
         Header: "Pilot",
         accessor: "pilot",
+        Cell: ({ row, value }) => {
+          let title = "";
+          if (row.original.multiplayer !== 2) {
+            title = "Non-multiplayer user";
+          }
+
+          value && (
+            <>
+              <div class="pilot-name" title={title}>
+                {value}
+              </div>
+              <div class="demo-flag">Demo User</div>
+            </>
+          );
+        },
       },
       {
         Header: "Audio",
