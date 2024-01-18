@@ -35,6 +35,8 @@ function App() {
   const [lastUrl, setLastUrl] = useState(null);
   const [filters, setFilters] = useState([]);
 
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
   const filterableFields = ["airport", "frequency", "pilot"];
 
   const [newFilter, setNewFilter] = useState({
@@ -97,10 +99,20 @@ function App() {
     console.log("Filters now set to: ", filters);
   }, [filters]);
 
+  useEffect(() => {
+    console.log("Audio play state: ", isAudioPlaying);
+  }, [isAudioPlaying]);
+
   const filteredData = applyFilters(data);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (isAudioPlaying) {
+        // Wait for 100ms before trying to fetch again
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        return;
+      }
+
       try {
         const json = await getMessage(lastId);
 
@@ -142,12 +154,18 @@ function App() {
 
     // Clear interval on unmount
     return () => clearInterval(interval);
-  }, [filters, lastId]);
+  }, [filters, isAudioPlaying, lastId]);
 
   return (
     <div className="App">
       <div className="autoPlayer">
-        {lastUrl && <Autoplayer latestAudioUrl={lastUrl} />}
+        {lastUrl && (
+          <Autoplayer
+            latestAudioUrl={lastUrl}
+            onAudioPlay={() => setIsAudioPlaying(true)}
+            onAudioPause={() => setIsAudioPlaying(false)}
+          />
+        )}
       </div>
       {showFilterControls && (
         <form>
