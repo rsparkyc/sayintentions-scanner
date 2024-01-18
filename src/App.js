@@ -75,7 +75,6 @@ function App() {
   const addFilter = useCallback(
     (newFilter) => {
       console.log("Current filters: ", filters);
-      debugger;
       if (
         newFilter.field !== "" &&
         newFilter.value !== "" &&
