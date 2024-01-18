@@ -68,7 +68,7 @@ function App() {
 
     // Clear interval on unmount
     return () => clearInterval(interval);
-  }, [lastId, getMessage]);
+  }, [lastId]);
 
   return (
     <div className="App">
