@@ -34,4 +34,4 @@ jobs:
 
       - name: Call SI Deploy Endpoint
         run: |
-          curl 'https://www.sayintentions.ai/portal/admin/ryan/deploy.html' -H 'Cookie: bbsessionhash=${{ SI_COOKIE }}'
+          curl 'https://www.sayintentions.ai/portal/admin/ryan/deploy.html' -H 'Cookie: bbsessionhash=${{ secrets.SI_COOKIE }}'
