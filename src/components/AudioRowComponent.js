@@ -13,7 +13,7 @@ const AudioRowComponent = React.memo(
       </div>
     );
   },
-  (prevProps, nextProps) => prevProps.url === nextProps.url
+  (prevProps, nextProps) => prevProps.id === nextProps.id
 );
 
 export default AudioRowComponent;
