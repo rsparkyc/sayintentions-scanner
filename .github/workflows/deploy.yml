@@ -33,6 +33,5 @@ jobs:
           aws cloudfront create-invalidation --distribution-id E1CXOKFY2S2KQ6 --paths "/*"
 
       - name: Call SI Deploy Endpoint
-      run: |
-          curl 'https://www.sayintentions.ai/portal/admin/ryan/deploy.html' -H 'Cookie: bbsessionhash=${{ SI_COOKIE }}' 
-
+        run: |
+          curl 'https://www.sayintentions.ai/portal/admin/ryan/deploy.html' -H 'Cookie: bbsessionhash=${{ SI_COOKIE }}'
