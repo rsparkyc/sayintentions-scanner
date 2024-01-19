@@ -51,12 +51,15 @@ function AudioTableComponent({
           if (row.original.multiplayer !== 2) {
             title = "Non-multiplayer user";
           }
+          const editProfileUrl = `/portal/admin/accounts/edit.html?userid=${row.original.from_userid}`;
 
           return (
             value && (
               <>
                 <div className="pilot-name" title={title}>
-                  {value}
+                  <a href={editProfileUrl} target="_blank" rel="noreferrer">
+                    {value}
+                  </a>
                 </div>
                 <div className="demo-flag">Demo User</div>
               </>
