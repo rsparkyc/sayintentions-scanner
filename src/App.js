@@ -149,8 +149,8 @@ function App() {
     // Call fetchData
     fetchData();
 
-    // Set up a polling interval (e.g., 1000 milliseconds)
-    const interval = setInterval(fetchData, 1000);
+    // Set up a polling interval (e.g., 5 seconds)
+    const interval = setInterval(fetchData, 5000);
 
     // Clear interval on unmount
     return () => clearInterval(interval);
