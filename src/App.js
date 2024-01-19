@@ -28,7 +28,7 @@ const getMessage = async (lastId) => {
 
 function App() {
   const searchParams = new URLSearchParams(window.location.search);
-  const showFilterControls = searchParams.has("filters");
+  const showFilterControls = !searchParams.has("nofilters");
 
   const [data, setData] = useState([]);
   const [lastId, setLastId] = useState(0);
@@ -95,6 +95,7 @@ function App() {
     setFilters(filters.filter((_, i) => i !== index));
   };
 
+  /** 
   useEffect(() => {
     console.log("Filters now set to: ", filters);
   }, [filters]);
@@ -102,6 +103,7 @@ function App() {
   useEffect(() => {
     console.log("Audio play state: ", isAudioPlaying);
   }, [isAudioPlaying]);
+  */
 
   const filteredData = applyFilters(data);
 
