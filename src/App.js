@@ -17,10 +17,7 @@ const getMessage = async (lastId) => {
     };
   }
 
-  const response = await fetch(
-    `https://www.sayintentions.ai/api/scanner.html?last_id=${lastId}`,
-    options
-  );
+  const response = await fetch(`https://lambda.sayintentions.ai/scanner/last?last=${lastId}`, options);
 
   const json = await response.json();
   return json;
