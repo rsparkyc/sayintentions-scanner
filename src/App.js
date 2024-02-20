@@ -9,11 +9,13 @@ import Autoplayer from "./components/Autoplayer";
 const getMessage = async (lastId) => {
   let options = {};
 
-  // if we are not under the sayintentions.ai domain,
-  // we should set the credentials to "same-origin"
-  if (window.location.hostname.endsWith("sayintentions.ai")) {
+  // look for authToken in localstorage
+  const authToken = localStorage.getItem("authToken");
+  if (authToken) {
     options = {
-      credentials: "same-origin",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
     };
   }
 
@@ -74,11 +76,7 @@ function App() {
   const addFilter = useCallback(
     (newFilter) => {
       console.log("Current filters: ", filters);
-      if (
-        newFilter.field !== "" &&
-        newFilter.value !== "" &&
-        newFilter.type !== ""
-      ) {
+      if (newFilter.field !== "" && newFilter.value !== "" && newFilter.type !== "") {
         console.log("Adding filter: ", newFilter);
         setFilters([...filters, newFilter]);
       }
@@ -175,11 +173,7 @@ function App() {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            value={newFilter.value}
-            onChange={handleValueChange}
-          />
+          <input type="text" value={newFilter.value} onChange={handleValueChange} />
           {/* Include Filter Button */}
           <button type="button" onClick={() => handleAddFilter("include")}>
             <i className="fa fa-filter" aria-hidden="true"></i>
@@ -193,8 +187,7 @@ function App() {
       <div className="active-filters">
         {filters.map((filter, index) => (
           <div key={index}>
-            {filter.field}: {filter.value} ({filter.type})
-            <button onClick={() => removeFilter(index)}>Remove</button>
+            {filter.field}: {filter.value} ({filter.type})<button onClick={() => removeFilter(index)}>Remove</button>
           </div>
         ))}
       </div>
