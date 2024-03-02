@@ -2,12 +2,7 @@ import AudioRowComponent from "./AudioRowComponent.js";
 import React from "react";
 import { useTable } from "react-table";
 
-function AudioTableComponent({
-  data,
-  filterableFields,
-  addFilter,
-  allowFiltering,
-}) {
+function AudioTableComponent({ data, filterableFields, addFilter, allowFiltering }) {
   // Define columns
   const columns = React.useMemo(
     () => [
@@ -62,6 +57,7 @@ function AudioTableComponent({
                   </a>
                 </div>
                 <div className="demo-flag">Demo User</div>
+                <div className="mp-flag">Non-Multiplayer</div>
               </>
             )
           );
@@ -88,8 +84,7 @@ function AudioTableComponent({
   );
 
   // Use the useTable hook to create table configuration
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
   // Render the table UI
   return (
@@ -110,10 +105,7 @@ function AudioTableComponent({
           <div {...getTableBodyProps()} className="data-row-group">
             {rows.map((row, index) => {
               prepareRow(row);
-              let rowClass =
-                (data.length - index) % 2 === 0
-                  ? "data-row even-row"
-                  : "data-row odd-row";
+              let rowClass = (data.length - index) % 2 === 0 ? "data-row even-row" : "data-row odd-row";
 
               if (data[index].demo === 1) {
                 rowClass += " demo-user";
